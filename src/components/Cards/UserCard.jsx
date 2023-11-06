@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {Tooltip} from "react-tooltip";
 
 function UserCard({ user }) {
   const moneyFormatter = (number) => {
@@ -8,6 +9,10 @@ function UserCard({ user }) {
       maximumFractionDigits: 0,
     }).format(number);
   };
+
+  const favoriteProduct = user.products.find((product) => {
+    return product.id === user.favorite_product_id;
+  });
 
   return (
     <div className="w-[20rem] lg:w-[18rem] pb-0.5 2xl:w-[24rem] h-auto cursor-pointer hover:drop-shadow-md group pl-[20px] pr-[20px] 2xl:pl-[35px] 2xl:pr-[35px] bg-white rounded-3xl drop-shadow">
@@ -35,17 +40,18 @@ function UserCard({ user }) {
               {
                 <img
                   className="w-10 h-10 xl:max-w-12 xl:max-h-12 bg-blend-multiply rounded-lg object-contain"
-                  src={user.products[user.favorite_product].image}
+                  src={favoriteProduct.image}
                   alt="product"
                   data-tooltip-id="product-tooltip"
                   data-tooltip-content={
-                    user.products[user.favorite_product].name
+                    favoriteProduct.product_name
                   }
                 />
               }
               <span className="text-sm line-clamp-2 text-ellipsis">
-                {user.products[user.favorite_product].description}
+                {favoriteProduct.short_description}
               </span>
+              <Tooltip id="product-tooltip" />
             </div>
           </div>
         </div>
